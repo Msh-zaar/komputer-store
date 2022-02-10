@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <title>Komputer Store</title>
+    <script src=js/index.js defer></script>
+</head>
+<body>
+    <!-- Title -->
+    <div class="bg-white dark:bg-slate-900 text-center px-6 py-8 shadow-xl">
+        <h1 class="text-slate-900 text-white text-base font-bold tracking-tight">Komputer Store</h1>
+    </div>
+
+    <!-- Flex for three main elements -->
+    <div class="flex flex-row">
+        <!-- Bank -->
+        <div id="bank" class="basis-1/3 rounded-lg px-6 py-8 shadow-xl">
+            <label for="bank" class="">Bank</label>
+            <div>
+                <span>Balance</span>
+                <span id="balance"></span>
+            </div>
+            <div class="flex justify-center">
+                <button id="loan" class="bg-slate-900 hover:bg-slate-700 text-white font-bold py-2 px-4 rounded-full">
+                    Apply for Loan
+                </button>
+            </div>
+        </div>
+
+        <!-- Work -->
+        <div id="work" class="basis-1/3 rounded-lg px-6 py-8 shadow-xl">
+            <label for="work" class="">Work</label>
+            <div>
+                <span>Pay</span>
+                <span id="pay"></span>
+            </div>
+            <div class="flex justify-around">
+                <button id="work" class="bg-slate-900 hover:bg-slate-700 text-white font-bold py-2 px-4 rounded-full">
+                    Work
+                </button>
+                <button id="bank" class="bg-slate-900 hover:bg-slate-700 text-white font-bold py-2 px-4 rounded-full">
+                    Bank
+                </button>
+            </div>
+        </div>
+
+        <!-- Laptop -->
+        <div id="laptop" class="basis-1/3 rounded-lg px-6 py-8 shadow-xl">
+            <label for="work" class="">Laptop</label>
+            <div>
+                <ul id="laptop-list">
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <!-- Showcase -->
+    <div id="laptop-showcase" class="rounded-lg px-6 py-8 shadow-xl">
+        <label for="laptop-showcase" class="text-center">Laptop Showcase</label>
+    </div>
+</body>
+</html>
