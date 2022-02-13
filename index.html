@@ -17,9 +17,9 @@
     </nav>
 
     <!-- Section for bank and work -->
-    <section class="container mx-auto mt-16 flex justify-between">
+    <section class="container mx-auto mt-16 gap-2 flex justify-between">
         <!-- Bank -->
-        <div id="bank" class="bg-slate-600 container mx-auto mt-8 shadow-xl rounded-lg shadow-xl">
+        <div class="bg-slate-600 container mx-auto mt-8 shadow-xl rounded-lg shadow-xl">
             <div class="py-6 px-8">
                 <h2 class="text-lg font-semibold mb-2 text-white">Bank</h2>
                 <div class="flex justify-between">
@@ -42,7 +42,7 @@
         </div>
 
         <!-- Work -->
-        <div id="work" class="bg-slate-600 container mx-auto mt-8 shadow-xl rounded-lg shadow-xl">
+        <div class="bg-slate-600 container mx-auto mt-8 shadow-xl rounded-lg shadow-xl">
             <div class="py-6 px-8">
                 <h2 class="text-lg font-semibold mb-2 text-white">Work</h2>
                 <div class="flex justify-between">
@@ -62,23 +62,21 @@
     </section>
 
     <!-- Laptop section -->
-    <section class="container mx-auto mt-16 flex justify-center">
-        <!-- Laptop selection -->
+        <!-- Laptop dropdown -->
         <div class="bg-slate-600 container mx-auto mt-8 shadow-xl flex justify-center rounded-lg shadow-xl">
             <div class="py-6 px-8">
-
                 <label class="text-lg font-semibold mb-2 text-white" for="laptopDropdown">Laptop</label>
-                <select name="laptopDropdown" id="laptopDropdown" class="bg-slate-500 w-full p-2 "></select>
+                <select name="laptopDropdown" id="laptopDropdown" class="bg-slate-500 hover:bg-slate-400 text-white w-full p-2 "></select>
                 <div class="mt-4">
-                    <ul class="list-disc" id="specificLaptops"></ul>
+                    <ul class="list-disc text-white" id="laptopFeatures"></ul>
                 </div>
             </div>
         </div>
 
         <!-- Laptop showcase -->
-        <div id="laptopDetails" class="container mx-auto mt-16 flex justify-center">
+        <div class="container mx-auto mt-16 flex justify-center">
             <div class="bg-slate-600 container mx-auto mt-8 shadow-xl flex justify-center rounded-lg shadow-xl flex flex-col">
-                <img src="" alt="" id="laptopImage" class="w-auto md:w-1/2 object cover">
+                <img src="" alt="" id="laptopImage" class="w-auto object cover">
                 <div class="py-6 px-8">
                     <h2 id="laptopName" class="text-lg font-semibold mb-2 text-white">Sample Name</h2>
                     <p id="laptopDescription" class="text-white">Sample Computer Desc.</p>
@@ -94,10 +92,10 @@
                 </div>
             </div>
         </div>
-    </section>
+
 
     <!-- Footer -->
     <footer class="text-center font-semibold my-8 text-white">Made by Michael Zaar</footer>
-    
+
 </body>
 </html>

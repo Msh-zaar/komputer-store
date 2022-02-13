@@ -1,169 +1,167 @@
-// Buttons
+//Work Buttons
 const workButtonElement = document.querySelector("#workButton");
-const depositButtonElement = document.querySelector("#depositButton");
+const bankButtonElement = document.querySelector("#depositButton");
+//Bank Buttons
 const loanButtonElement = document.querySelector("#loanButton");
-const repayLoanButtonElement = document.querySelector("#repayButton");
-const buyLaptopButtonElement = document.querySelector("#buyLaptopButton");
-// Balances
+const repayButtonElement = document.querySelector("#repayButton");
+//Laptop Button
+const buylaptopButtonElement = document.querySelector("#buyLaptopButton");
+//Work Elements
+const payCheckElement = document.querySelector("#payCheck");
+//Bank Elements
 const bankBalanceElement = document.querySelector("#bankBalance");
 const loanBalanceElement = document.querySelector("#loanBalance");
-const payCheckElement = document.querySelector("#payCheck");
-// Various
-const laptopNameElement = document.querySelector("#laptopName");
-const laptopDescriptionElement = document.querySelector("#laptopDescription");
+//Dropdown Elements
+const selectElement = document.querySelector("#laptopDropdown");
+const laptopFeaturesElement = document.querySelector("#laptopFeatures");
+//Laptop Elements
+const laptopTitleElement = document.querySelector("#laptopName");
+const laptopDesciptionElement = document.querySelector("#laptopDescription");
 const laptopPriceElement = document.querySelector("#laptopPrice");
 const laptopImageElement = document.querySelector("#laptopImage");
-const laptopSpecificElement = document.querySelector("#specificLaptops");
-const selectElement = document.querySelector("#laptopDropdown");
 
 let laptops;
-let boughtLaptops = [];
-
+let boughtlaptops = [];
 const parse = Number.parseInt;
 
 (async () => {
-    const URL = "https://noroff-komputer-store-api.herokuapp.com";
-    const temp = await getLaptops(`${URL}/computers`);
+	const URL = "https://noroff-komputer-store-api.herokuapp.com";
+	const temp = await getLaptops(`${URL}/computers`);
 
-    laptops = temp.map(computer => ({
-        ...computer,
-        image: `${URL}/${computer.image}`
-    }));
+	laptops = temp.map(laptop => ({
+		...laptop,
+		image: `${URL}/${laptop.image}`
+	}));
 
-    addDropdown(laptops);
+	addDropdown(laptops);
 
-    displayLaptop(laptops[0]);
-    displaySpecificLaptop(laptops[0]);
-});
+	displayLaptop(laptops[0]);
+	displayLaptopFeatures(laptops[0]);
+})();
 
-async function getLaptops(url){
-    const result = await fetch(url);
-    const laptopJson = await result.json();
+async function getLaptops(url) {
+	const res = await fetch(url);
+	const laptopsJson = await res.json();
 
-    return [...laptopJson];
-};
+	return [...laptopsJson];
+}
 
-function displayLaptop(laptop){
-    laptopNameElement.innerText  = laptop.title;
-    laptopDescriptionElement.innerText  = laptop.description;
-    laptopPriceElement.innerText  = laptop.price;
-    laptopImageElement.src = laptop.image;
+function displayLaptop(laptop) {
+	laptopTitleElement.innerText = laptop.title;
+	laptopDesciptionElement.innerText = laptop.description;
+	laptopPriceElement.innerText = laptop.price;
+	laptopImageElement.src = laptop.image;
+}
 
-};
+function displayLaptopFeatures(laptop) {
+	laptopFeaturesElement.innerHTML = "";
 
-function displaySpecificLaptop(){
-    laptopSpecificElement.innerHTML = ""
+	for (const feature of laptop.specs) {
+		const listItem = document.createElement("li");
+		const text = document.createTextNode(feature);
 
-    for (const item of laptop.specs){
-        const listItem = document.createElement("li");
-        const desc = document.createElement(item);
+		listItem.appendChild(text);
+		laptopFeaturesElement.append(listItem);
+	}
+}
 
-        listItem.appendChild(desc);
-        laptopDescriptionElement.append(listItem);
-    };
-};
+function addDropdown(laptops) {
+	for (const laptop of laptops) {
+		const option = document.createElement("option");
 
-function addDropdown(laptops){
-    for (const laptop of laptops){
-        const option = document.createElement("option")
-
-        option.innerHTML = laptop.title
-        selectElement.append(option)
-    }
+		option.innerText = laptop.title;
+		selectElement.append(option);
+	}
 }
 
 function hasLoan() {
-	return parse(loanBalanceElement.innerHTML) > 0
+	return parse(loanBalanceElement.innerText) > 0;
 }
 
-// Buttons
-// Work
 workButtonElement.addEventListener("click", e => {
-	const payCheck = parse(payCheckElement.innerHTML)
+	const payBalance = parse(payCheckElement.innerText);
 
-	payCheckElement.innerHTML = payCheck + 100
-})
-// Deposit
-depositButtonElement.addEventListener("click", e => {
-	const bankBalance = parse(bankBalanceElement.innerHTML)
-	const payCheck = parse(payCheckElement.innerHTML)
+	payCheckElement.innerText = payBalance + 100;
+});
+
+bankButtonElement.addEventListener("click", e => {
+	const bankBalance = parse(bankBalanceElement.innerText);
+	const payBalance = parse(payCheckElement.innerText);
 
 	if (hasLoan()) {
-		const tenPercentOfpayCheck = payCheck * 0.1
-		const depositPayCheck = payCheck - tenPercentOfpayCheck
+		const tenPercentOfPay = payBalance * 0.1;
+		const payToDeposit = payBalance - tenPercentOfPay;
 
-		bankBalanceElement.innerHTML = bankBalance + depositPayCheck
-		loanBalanceElement.innerHTML = parse(loanBalanceElement.innerHTML) - tenPercentOfpayCheck
-		payCheckElement.innerHTML = 0
+		bankBalanceElement.innerText = bankBalance + payToDeposit;
+		loanBalanceElement.innerText = parse(loanBalanceElement.innerText) - tenPercentOfPay;
+		payCheckElement.innerText = 0;
 
-		return
+		return;
 	}
 
-	bankBalanceElement.innerHTML = bankBalance + payCheck
-	payCheckElement.innerHTML = 0
-})
-// Loan
+	bankBalanceElement.innerText = bankBalance + payBalance;
+	payCheckElement.innerText = 0;
+});
+
 loanButtonElement.addEventListener("click", () => {
-	if (hasLoan()) return console.error("You can't take up another loan!");
+	if (hasLoan()) return console.error("You cannot take another loan!");
 
 	const bankBalance = parse(bankBalanceElement.innerText);
-	const loanAmount = window.prompt("How much do you want to lend?");
+	const loanAmount = window.prompt("Choose your loan amount:");
 
-	if (loanAmount === null) return console.error("Please enter a value");
-	if (parse(loanAmount) > bankBalance) return console.error("Loan denied");
+	if (loanAmount === null || loanAmount === "") return console.error("Please enter a value!");
+	if (parse(loanAmount) > bankBalance) return console.error("Loan amount too high!");
 
 	loanBalanceElement.innerText = loanAmount;
 	bankBalanceElement.innerText = parse(bankBalance) + parse(loanAmount);
 
-	repayLoanButtonElement.classList.toggle("hidden");
+	repayButtonElement.classList.toggle("hidden");
 });
 
+repayButtonElement.addEventListener("click", () => {
+	const bankBalance = parse(bankBalanceElement.innerText);
+	const payBalance = parse(payCheckElement.innerText);
+	const loanBalance = parse(loanBalanceElement.innerText);
 
-// Repay
-repayLoanButtonElement.addEventListener("click", () => {
-	const bankBalance = parse(bankBalanceElement.innerText)
-	const payCheck = parse(payCheckElement.innerText)
-	const loanBalance = parse(loanBalanceElement.innerText)
+	if (payBalance > loanBalance) {
+		const payToDeposit = payBalance - loanBalance;
 
-	if (payCheck > loanBalance) {
-		const payToDeposit = payCheck - loanBalance
+		bankBalanceElement.innerText = bankBalance + payToDeposit;
+		payCheckElement.innerText = 0;
+		loanBalanceElement.innerText = 0;
 
-		bankBalanceElement.innerText = bankBalance + payToDeposit
-		payCheckElement.innerText = 0
-		loanBalanceElement.innerText = 0
+		repayButtonElement.classList.toggle("hidden");
 
-		repayLoanButtonElement.classList.toggle("hidden")
-
-		return
+		return;
 	}
 
-	loanBalanceElement.innerText = loanBalance - payCheck
-	payCheckElement.innerText = 0
-})
-// Purchase
-buyLaptopButtonElement.addEventListener("click", e => {
-	const laptopPrice = parse(laptopPriceElement.innerText)
-	const bankBalance = parse(bankBalanceElement.innerText)
+	loanBalanceElement.innerText = loanBalance - payBalance;
+	payCheckElement.innerText = 0;
+});
 
-	if (laptopPrice > bankBalance) return console.error("You can't afford this laptop")
+buylaptopButtonElement.addEventListener("click", e => {
+	const laptopPrice = parse(laptopPriceElement.innerText);
+	const bankBalance = parse(bankBalanceElement.innerText);
 
-	bankBalanceElement.innerText = bankBalance - laptopPrice
+	if (laptopPrice > bankBalance) return console.error("Not enough funds to buy this laptop!");
 
-	boughtLaptops.push(laptopPriceElement.innerText)
-	buyLaptopButtonElement.disabled = true
-})
-// Select
+	bankBalanceElement.innerText = bankBalance - laptopPrice;
+
+	boughtlaptops.push(laptopTitleElement.innerText);
+	buylaptopButtonElement.disabled = true;
+});
+
 selectElement.addEventListener("change", e => {
-	const laptopName = e.target.value
-	const laptop = laptops.find(laptop => laptop.title === laptopName)
+	const laptopTitle = e.target.value;
+	const laptop = laptops.find(laptop => laptop.title === laptopTitle);
 
-	displayLaptop(laptop)
-	displaySpecificLaptop(laptop)
+	displayLaptop(laptop);
+	displayLaptopFeatures(laptop);
 
-	if (boughtLaptops.includes(laptopName)) {
-		buyLaptopButtonElement.disabled = true
-		return
+	if (boughtlaptops.includes(laptopTitle)) {
+		buylaptopButtonElement.disabled = true;
+		return;
 	}
 
-	buyLaptopButtonElement.disabled = false
-})
+	buylaptopButtonElement.disabled = false;
+});
